@@ -1,0 +1,117 @@
+{% extends "./base.html" %}
+
+{% block title %} Order Profile {% endblock %}
+{% block content %} 
+</body>
+    <section id="boddy">
+        <div id="contain">
+            <h2 id="orders">Your Orders</h2>
+    
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="order-item" onclick="showDetails({{ order.id }})">
+                        <strong>Order #{{ order.id }}</strong><br>
+                        Total Amount: ${{ order.total_amount }}<br>
+                        Status: {{ order.payment_status }}<br>
+                        Date: {{ order.created_at|date:"d M Y, H:i" }}
+                    </div>
+    
+                    <div id="details-{{ order.id }}" class="order-details">
+                        <button class="close-btn" onclick="closeDetails({{ order.id }})">Close</button>
+                        <h3>Order Details for #{{ order.id }}</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if order.products %}
+                                    {% for product in order.products %}
+                                        <tr>
+                                            <td>{{ product.name }}</td>
+                                            <td>{{ product.quantity }}</td>
+                                            <td>${{ product.price }}</td>
+                                            <td>${{ product.total }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">No products found for this order.</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        <div class="total">
+                            Total Amount: ${{ order.total_amount }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="font-size: 20px; color: goldenrod;">No orders found.</p>
+            {% endif %}
+        </div>
+    </section>   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const productCards = document.querySelectorAll('.product-card');
+            const modal = document.getElementById('product-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalDescription = document.getElementById('modal-description');
+            const modalPrice = document.getElementById('modal-price');
+            const addToCartButton = document.getElementById('add-to-cart');
+            const closeModalBtn = document.querySelector('.close-btn');
+
+            const products = {
+                1: { image: 'image1.jpg', description: 'Description for Product 1', price: '$10.00' },
+                2: { image: 'image2.jpg', description: 'Description for Product 2', price: '$15.00' }
+            };
+
+            const openModal = (productId) => {
+                const product = products[productId];
+                if (product) {
+                    modalImage.src = product.image;
+                    modalDescription.textContent = product.description;
+                    modalPrice.textContent = product.price;
+
+                    document.body.classList.add('modal-open');
+                    modal.style.display = 'flex';
+
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        card.classList.add('blur-background');
+                    });
+                }
+            };
+
+            const closeModal = () => {
+                modal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.classList.remove('blur-background');
+                });
+            };
+
+            productCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const productId = card.getAttribute('data-product-id');
+                    openModal(productId);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script> 
+{% endblock %}  
+</body>      
+</html>

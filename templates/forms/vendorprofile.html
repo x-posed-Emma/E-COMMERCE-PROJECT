@@ -1,0 +1,28 @@
+{% extends 'app1/base.html' %}
+
+{% block title %}
+    Vendor Profile Form
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="background-image">
+        <div class="form-container">
+            <h2>Create Vendor Profile</h2>
+            <form method="post" enctype="multipart/form-data" action="{% url 'app1:update' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save Form</a></button>
+            </form>
+        
+            {% if messages %}
+                <div class="mt-3">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>    
+    </div>
+</body>
+{% endblock %}

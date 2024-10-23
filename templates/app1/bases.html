@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Document {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bases.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/userprofile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<nav>
+    <nav class="navbar">
+        <div class="container ">
+            <a href="" class="navbar-brand">E-Commerce</a>
+            <form class="search-form" id="hideonmobile" method="get" action="{%url 'app1:search' %}">
+                <input type="text" placeholder="Search for items..."name="params">
+                <button type="submit">Search</button>
+            </form>
+            <ul class="navbar-menu">
+                <li id="hideonmobile"><a href="{% url 'app1:home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    {% if is_vendor %}
+                        <li><a href="{% url 'app1:dashboard' %}">Dashboard</a></li>
+                    {% else %}
+                        <li><a href="{% url 'app1:vendorprofile' %}">Become a Vendor</a></li>
+                    {% endif %}
+                    <li id="hideonmobile"><a href="{% url 'app1:cart' %}">Cart</a></li>
+                    <li class="dropdown" id="hideonmobile">
+                        <a href="#" role="button"  aria-haspopup="true" aria-expanded="false">
+                            Categories <i class="fa-solid fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown_content" aria-labelledby="navbarDropdown">
+                            {% for category in categories %}
+                                <a href="?category={{category.name}}">{{ category.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    <li id="hideonmobile"><a href="{% url 'app1:orderprofile' %}">Order Profile</a></li>
+                    <li id="hideonmobile"><a href="{% url 'app1:logout' %}">Logout</a></li>
+                {% else %} 
+                    <li id="hideonmobile"><a href="{% url 'app1:signup' %}">Signup/Login</a></li>   
+                {% endif %}    
+                <li onclick=ShowSidebar() class="show"><a href="#"><i class="fa-solid fa-bars"></i></a></li>
+            </ul>
+        </div>
+        <div class="container " id="sidebar">
+            <li class="close" onclick=CloseSidebar()><a href=""><i class="fa-solid fa-xmark"></i></a></li>
+            <form class="search-form">
+                <input type="text" placeholder="Search for items..."><br>
+                <button type="submit">Search</button>
+            </form>
+            <ul class="navbar-menu">
+                <li><a href="{% url 'app1:home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    {% if is_vendor %}
+                        <li><a href="{% url 'app1:dashboard' %}">Dashboard</a></li>
+                    {% else %}
+                        <li><a href="{% url 'app1:vendorprofile' %}">Become a Vendor</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'app1:logout' %}">Logout</a></li>
+                    <li><a href="{% url 'app1:cart' %}">Cart</a></li>
+                    <li><a href="{% url 'app1:orderprofile' %}">Order Profile</a></li>
+                {% else %} 
+                    <li><a href="{% url 'app1:signup' %}">Signup/Login</a></li>   
+                {% endif %}    
+                <li class="dropdown">
+                    <a href="#" role="button"  aria-haspopup="true" aria-expanded="false">
+                        Categories <i class="fa-solid fa-caret-down"></i>
+                    </a>
+                    <div class="dropdown_content" aria-labelledby="navbarDropdown">
+                        {% for category in categories %}
+                            <a href="?category={{category.name}}">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+                <li><a href="#">Track Goods</a></li>
+            </ul>
+        </div>
+    </nav>
+</nav>
+
+<!-- <aside id="aside">
+    {% block user_profile %}
+    {% include 'app1/userprofile.html' %}
+    {% endblock %}
+</aside> -->
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+    <footer>
+        <div class="media">
+            <div class="media1">
+                <ol>
+                    <li><a href="{% url 'app1:home' %}">HOME</a></li>
+                    <li><a href="#">DASHBOARD</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'app1:cart' %}">CART</a></li>
+                        <li><a href="{% url 'app1:orderprofile' %}">ORDER PROFiLE</a></li>
+                        <li><a href="{% url 'app1:logout' %}">LOGOUT</a></li>
+                    {% else %}   
+                        <li><a href="{% url 'app1:signup' %}">Signup/Login</a></li> 
+                    {% endif %}    
+                </ol>    
+            </div>
+            <div class="media2">
+                <h1>LOGO</h1>
+                <div class="place">
+                    <i class="fa-solid fa-location-dot" id="place"></i>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, quia.</p>
+                </div>
+                <div class="call">
+                    <i class="fa-solid fa-phone" id="call"></i>
+                    <p>International calls:09012012319,National calls: 09131476774</p>
+                </div>
+                <div class="email1">
+                    <i class="fa-solid fa-envelope" id="email1"></i> 
+                    <p>Lorem ipsum dolor sit amet. <br>Lorem ipsum dolor sit amet consectetur adipisicing. <br>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>             
+                </div>
+                <h3>&copy copyright: EMERE EMMANUEL CHISOM</h3>
+            </div>
+            <div class="media3">
+                <h1 id="news">NEWSLETTER</h1>
+                <h3>Subscribe to our email newsletter to receive updates and news.</h3>
+                <div class="logo-links">
+                    <a href="https://facebook.com/emereemmanuelchisom"><i class="fa-brands fa-facebook" id="facebook"></i></a>
+                    <a href="https://twitter.com"><i class="fa-brands fa-twitter" id="twitter"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram" id="instagram"></i></a>
+                    <a href="https://tiktok.com"><i class="fa-brands fa-tiktok" id="tiktok"></i></a>
+                </div>
+            </div>
+        </div>    
+    </footer>
+
+    <script>
+        function ShowSidebar(){
+            const sidebar = document.querySelector("#sidebar");
+            sidebar.style.display = "block"
+        }
+        function CloseSidebar(){
+            const sidebar = document.querySelector("#sidebar");
+            sidebar.style.display = "none"
+        }
+    </script>    
+</body>
+</html>

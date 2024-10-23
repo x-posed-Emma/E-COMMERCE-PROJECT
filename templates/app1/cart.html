@@ -1,0 +1,64 @@
+{% extends "./base.html" %}
+
+{% block title %} Cart {% endblock %}
+{% block content %}
+    <section class="body">
+        <div class="cart_container">
+            <h1>Your Cart</h1>
+            <div class="messages">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="cart_item">
+                <table cellspacing="1" cellpadding="1" border="2">
+                    <tr>
+                        <th>Product Name:</th>
+                        <th>Product Quantity:</th>
+                        <th>Product Price:</th>
+                        <th>Product Total_Price:</th>
+                        <th>Remove Item</th>
+                    </tr>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.product_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.product_price }}</td>
+                        <td>{{ item.total_price }}</td>
+                        <td>
+                            <form action="{% url 'app1:remove_from_cart' item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                        </td>    
+                    </tr>
+                    {% empty %}
+                       <p>Your cart is empty.</p>
+                    {% endfor %}
+                </table>
+                <div>
+                    <h2>Total: {{ overall_total|floatformat:2 }}</h2>
+                    <form method='POST' action="{% url 'app1:ordering' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn2">Proceed to Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>    
+{% endblock %}     
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const messages = document.querySelectorAll('.alert');
+        messages.forEach(message => {
+            setTimeout(() => {
+                message.classList.add('fade-out');
+            }, 4000); // 4 seconds
+        });
+    });
+</script>
+</body>
+</html>

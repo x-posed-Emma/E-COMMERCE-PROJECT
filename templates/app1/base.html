@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>{% block title %}Base {%endblock%}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/orderprofile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vendorprofile.css' %}">  
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/addproduct.css' %}">
+    <link rel="stylesheet" href="{% static 'css/update.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order_failed.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body> 
+    <nav class="navbar">
+        <div class="container ">
+            <a href="" class="navbar-brand">E-Commerce</a>
+            <!-- <form class="search-form" id="hideonmobile" method="get" action="{%url 'app1:search' %}">
+                <input type="text" placeholder="Search for items..."name="params">
+                <button type="submit">Search</button>
+            </form> -->
+            <ul class="navbar-menu">
+                <li id="hideonmobile"><a href="{% url 'app1:home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    {% if is_vendor %}
+                        <li><a href="{% url 'app1:dashboard' %}">Dashboard</a></li>
+                    {% else %}
+                        <li><a href="{% url 'app1:vendorprofile' %}">Become a Vendor</a></li>
+                    {% endif %}
+                    <li id="hideonmobile"><a href="{% url 'app1:cart' %}">Cart</a></li>
+                    <li id="hideonmobile"><a href="{% url 'app1:orderprofile' %}">Order Profile</a></li>
+                    <li id="hideonmobile"><a href="{% url 'app1:logout' %}">Logout</a></li>
+                {% else %} 
+                    <li id="hideonmobile"><a href="{% url 'app1:signup' %}">Signup/Login</a></li>   
+                {% endif %}    
+                <li onclick=ShowSidebar() class="show"><a href="#"><i class="fa-solid fa-bars"></i></a></li>
+            </ul>
+        </div>
+        <div class="container " id="sidebar">
+            <li class="close" onclick=CloseSidebar()><a href=""><i class="fa-solid fa-xmark"></i></a></li>
+            <form class="search-form">
+                <input type="text" placeholder="Search for items..."><br>
+                <button type="submit">Search</button>
+            </form>
+            <ul class="navbar-menu">
+                <li><a href="{% url 'app1:home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    {% if is_vendor %}
+                        <li><a href="{% url 'app1:dashboard' %}">Dashboard</a></li>
+                    {% else %}
+                        <li><a href="{% url 'app1:vendorprofile' %}">Become a Vendor</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'app1:cart' %}">Cart</a></li>
+                    <li><a href="{% url 'app1:orderprofile' %}">Order Profile</a></li>
+                    <li><a href="{% url 'app1:logout' %}">Logout</a></li>
+                {% else %} 
+                    <li><a href="{% url 'app1:signup' %}">Signup/Login</a></li>   
+                {% endif %}    
+            </ul>
+        </div>
+    </nav>
+    {% block content %}       
+    {% endblock %}
+
+
+<script>
+    function ShowSidebar(){
+        const sidebar = document.querySelector("#sidebar");
+        sidebar.style.display = "block"
+    }
+    function CloseSidebar(){
+        const sidebar = document.querySelector("#sidebar");
+        sidebar.style.display = "none"
+    }
+</script>
+</body>
+</html>

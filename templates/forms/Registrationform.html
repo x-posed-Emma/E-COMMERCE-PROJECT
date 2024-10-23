@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-up</title>
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<section>    
+    <div class="container">
+        <h2>SIGN UP</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input">
+                <label for="username">Username: </label><br>
+                <input type="text" name="username" id="username"><i class="fa-solid fa-user"></i>
+            </div>
+            <div class="input">
+                <label for="email">Email: </label><br>
+                <input type="email" name="email" id="email"><i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="input">
+                <label for="password">Password: </label><br>
+                <input type="password" name="password" id="password">
+            </div><br><br>
+            
+            <button type="submit" id="btn">Sign-up</button>
+            
+        </form>
+        <div class="messages">
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+        </div>
+        <p>Already have an account?  <a href="/login">LOGIN HERE</a></p>
+    </div>
+</section>    
+</body>
+</html>

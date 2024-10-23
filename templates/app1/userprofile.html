@@ -1,0 +1,30 @@
+
+
+{% block user_profile %}
+<div class="user-profile">
+    <h2>Profile</h2>
+    <div class="profile-row">
+        <label for="username">Username:</label><br>
+        <span id="username">{{ username }}</span>
+    </div>
+    <div class="profile-row">
+        <label for="email">Email:</label><br>
+        <span id="email">{{ email }}</span>
+    </div>
+    <div class="profile-row">
+        <label for="last_bought_items">Last Bought Items:</label><br>
+        <span id="last_bought_items">{{ last_bought_items }}</span>
+    </div>
+    <div class="profile-row">
+        <label for="last_searched_items">Last Searched Items:</label><br>
+        <span id="last_searched_items">{{ last_searched_items }}</span>
+    </div>
+    <div class="profile-row">
+        <label for="favorite_products">Favorite Products:</label><br>
+        <span id="favorite_products">{{ favorite_products }}</span>
+    </div>
+    <div class="profile-row">
+        <a href="{% url 'app1:home' %}" class="button">Edit Profile</a>
+    </div>
+</div>
+{% endblock %}

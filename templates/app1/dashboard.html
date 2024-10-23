@@ -1,0 +1,21 @@
+{% extends 'app1/base.html' %}
+{% block title %}Vendor Dashboard{% endblock %}
+
+{% block content %}
+<body>
+    <div class="dashboard-container">
+        <h1 class="dashboard-title" id="dashboard1">Vendor Dashboard</h1>
+
+        <h2 class="dashboard-subtitle" id="dashboard2">Your Products</h2>
+        <ol class="product-list" id="dashboard3">
+            {% for product in products %}
+                <li class="product-item"><a href="{% url 'app1:detail' product.id %}" style="text-decoration: none;">{{ product.product_name }} - ${{ product.product_price }}</a></li>
+            {% empty %}
+                <p class="no-products">You haven't added any products yet.</p>
+            {% endfor %}
+        </ol><br><br>
+
+        <a href="{% url 'app1:addproduct' %}" class="add-product-button">Add Product</a>
+    </div>
+</body>
+{% endblock %}

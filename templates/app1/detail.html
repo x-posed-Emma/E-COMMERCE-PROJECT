@@ -1,0 +1,22 @@
+{% extends "./base.html" %}
+
+{% block title %} DETAILS {% endblock %}
+
+{% block content %}
+<body>
+    <div class="containers">
+        <div class="details">
+            <h2 id="name">{{ product.product_name }}</h2>
+            <img src="{{ product.product_image.url }}" class="img" alt="{{ product.name }}" width="300">
+            <p class="price"><strong>Price: </strong>$ {{ product.product_price }}</p>
+            <p class="description"><strong>Description: </strong> {{ product.product_description }}</p>
+            <p class="categoryy"><strong>Category: </strong> {{product.category}} </p>
+            <p class="discount"><strong>Discount: </strong>$ {{product.discount}} </p>
+            <p class="quantity"><strong>Available Quantity: </strong> {{product.available_quantity}}</p>
+            <h2 id="store"><strong>STORE: </strong> {{product.vendor}} </h2>
+            <a id="add" href="{% url 'app1:home' %}" >Back to Home</a>
+        </div>    
+    </div>
+</body>
+{% endblock %}   
+</html>

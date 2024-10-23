@@ -1,0 +1,14 @@
+{% extends "./base.html" %}
+
+{% block title %} Order Notification {% endblock %}
+
+{% block content %}
+<body class="boddyy">
+    <div class="diva">
+        <h1>Order Success</h1>
+        <p>{{ message }}</p>
+        <button class="btn2notify"><a href="{% url 'app1:home' %}">Back to Home</a></button>
+    </div>
+</body>
+{% endblock %}  
+</html>

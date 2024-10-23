@@ -1,0 +1,28 @@
+{% extends "./bases.html" %}
+
+{% block title %} Home {% endblock %}
+<body>
+{% block content %}    
+    
+    <section class="product-display">
+        <div id="container">
+            {% for product in products %}
+                <div class="product-card" data-name="{{ product.product_name }}"><a href="{% url 'app1:detail' product.id %}">
+                    <img src="{{ product.product_image.url }}" alt="">
+                    <h3>{{ product.product_name }}</h3>
+                    <div>
+                        <p>{{ product.product_description|truncatewords:3  }}</p>
+                    </div>
+                    <p class="price">Price: <br> <span>${{ product.product_price }}</span></p>
+                    <form action="{% url 'app1:add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="add">Add to Cart</button>
+                    </form>
+                </a></div>   
+            {% endfor %}  
+        </div>
+        
+    </section>
+{% endblock %}
+</body>
+</html>

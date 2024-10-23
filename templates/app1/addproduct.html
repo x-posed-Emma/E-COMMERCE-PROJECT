@@ -1,0 +1,21 @@
+{% extends "./base.html" %}
+{% block title %}
+    Add Products
+{% endblock %}
+
+{% block content %}
+<body>
+<section class="body-add">
+    <div class="container-add">
+        <h1>Add New Product</h1>
+        <form method="post" enctype="multipart/form-data" class="form-container-add">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Submit</button>
+            <a href="{% url 'app1:dashboard' %}" class="back-link">Back to Dashboard</a>
+        </form><br><br>
+
+    </div>
+</section>    
+</body>
+{% endblock %}
